@@ -1,0 +1,34 @@
+services:
+  # Servicio de Base de Datos
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sqlserver-orientacion 
+    environment:
+      SA_PASSWORD: "YourStrong!Passw0rd"
+      ACCEPT_EULA: Y
+      MSSQL_PID: Express
+    ports:
+      - "1433:1433"
+    networks:
+      - backend
+
+  # Tu Microservicio ModOrientacion
+  mod-orientacion:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: mod-orientacion-container
+    ports:
+      - "5150:8080"  # Tu PC (5150) -> Contenedor (8080)
+    depends_on:
+      - db
+    networks:
+      - backend
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
+      # CONEXIÓN: 'Server=db' usa el nombre del servicio de arriba como dirección IP
+      - ConnectionStrings__ConexionDB=Server=db;Database=ModOrientacionDB;User=sa;Password=YourStrong!Passw0rd;encrypt=False;TrustServerCertificate=True;
+
+networks:
+  backend:
