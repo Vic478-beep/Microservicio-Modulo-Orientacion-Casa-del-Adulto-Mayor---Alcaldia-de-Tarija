@@ -13,3 +13,8 @@ Posteriormente a que se terminen de instalar los 4 nugets, verificaremos que est
 Perfecto, con eso ya podemos empezar a programar, primero empezaremos creando 2 carpetas (3 porque a veces no se crea la carpeta de Controllers) la cuales son:
 1.- Data
 2.- Models
+Dentro de nuestra nueva carpeta de Data, crearemos el archivo DbContext, el archivo que contendra las instancias para poder conectar con la base de datos. Asi se llamara:
+TestDbContext.cs
+En la carpeta Models crearemos las clases que contendra el microservicio, en mi caso yo cree 2:
+FichaOri.cs
+Adulto.cs
