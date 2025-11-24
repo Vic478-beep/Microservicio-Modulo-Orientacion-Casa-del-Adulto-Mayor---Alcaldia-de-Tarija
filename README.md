@@ -13,6 +13,20 @@ Después, deberemos entrar a la carpeta del proyecto que recién se acaba de gen
 
 cd MicroservicioTest
 
+Y asi es como esta estructurado el proyecto:
+
+MicroservicioModOrientacion/
+├── Controllers/       # Controladores de la API (Endpoints)
+│   ├── AdultoApiController.cs
+│   └── FichaOriApiController.cs
+├── Data/              # Contexto de base de datos
+│   └── ModOrientacionDbContext.cs
+├── Models/            # Entidades del dominio
+│   ├── Adulto.cs
+│   └── FichaOri.cs
+├── Program.cs         # Configuración y Pipeline
+├── Dockerfile         # Configuración de imagen Docker
+└── docker-compose.yml # Orquestación de servicios
 
 2. Instalación de Paquetes NuGet
 
@@ -80,6 +94,43 @@ Nota: Esta línea permite que el proyecto utilice Scalar para realizar las prueb
 
 Ahora, para empezar a Dockerizar, crearemos 2 archivos en la raíz del proyecto, se llamarán:
 
-🐳 Dockerfile
+🐳 Dockerfile: Este archivo es la "receta" para crear la imagen de la aplicación. Utilizamos una estrategia llamada Multi-Stage Build (Construcción en múltiples etapas) para hacer la imagen final más ligera y segura.
+🐳 docker-compose.yml: Este archivo define cómo se relacionan los servicios (La API y la Base de Datos) para funcionar juntos como un sistema.
+Una vez terminados de modificar los archivos de docker, lo que hice fui abrir primero mi Docker Desktop para empezar a crear la imagen
+6. Ejecución y Pruebas
 
-🐳 docker-compose.yml
+Finalmente, estos son los comandos utilizados para levantar el entorno completo (Base de Datos + Microservicio) utilizando Docker.
+
+Iniciar el proyecto
+
+Para construir la imagen y levantar los contenedores:
+
+docker compose up --build
+
+
+Verificar estado
+
+Para confirmar que los contenedores están corriendo:
+
+docker compose ps
+
+
+Probar el Microservicio
+
+Una vez iniciado, accedemos a la interfaz de pruebas en el navegador:
+👉 http://localhost:5150/scalar/v1
+O utilizando POSTMAN: 
+Para listar todos los adultos mayores: 
+http://localhost:5150/api/AdultoApi/ListarAdultos
+Para crear un nuevo adulto mayor:
+http://localhost:5150/api/AdultoApi/RegistrarNuevoAdulto
+Para listar todas las fichas de orientacion de adultos mayores:
+http://localhost:5150/api/FichaOriApi/ListarFichas
+Para crear una nueva ficha de orientacion para adulto:
+http://localhost:5150/api/FichaOriApi/RegistrarNuevaFicha
+
+Detener el proyecto
+
+Para detener y eliminar los contenedores correctamente:
+
+docker compose down
